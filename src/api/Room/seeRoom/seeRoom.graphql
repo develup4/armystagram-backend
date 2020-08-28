@@ -1,0 +1,8 @@
+type SeeRoomResponse {
+  room: Room!
+  messages: [Message!]!
+}
+
+type Query {
+  seeRoom: SeeRoomResponse!
+}

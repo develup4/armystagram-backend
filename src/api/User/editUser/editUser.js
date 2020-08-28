@@ -16,6 +16,7 @@ export default {
           firstName,
           lastName,
           bio,
+          avatar,
         },
       });
     },
