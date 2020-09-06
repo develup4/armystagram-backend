@@ -24,7 +24,6 @@ export default {
     };
     try {
       const existLike = await prisma.$exists.like(filterOptions);
-
       if (existLike) {
         // like의 unique는 id밖에 없는데 여기서 알수없으니 Many에서 조건으로 찾는다
         await prisma.deleteManyLikes(filterOptions);

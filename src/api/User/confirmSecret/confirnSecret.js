@@ -11,7 +11,9 @@ export default {
           where: { id: user.id },
           data: { loginSecret: '' },
         }); // confirm이 끝났으면 secret 지우기
-        return generateToken(user.id); // 아직 쓰이지않았음
+        const token = generateToken(user.id);
+        console.log(token);
+        return token;
       } else {
         throw Error('Wrong email/secret combination');
       }
