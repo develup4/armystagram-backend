@@ -1,9 +1,0 @@
-{
-    "prettier.singleQuote": true,
-    "prettier.jsxSingleQuote": true,
-    "files.watcherExclude": {
-        "**/.git/objects/**": true,
-        "**/.git/subtree-cache/**": true,
-        "**/.hg/store/**": true
-    }
-}

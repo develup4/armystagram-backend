@@ -7,6 +7,12 @@ export default {
     followers: ({ id }) => prisma.user({ id }).followers(),
     likes: ({ id }) => prisma.user({ id }).likes(),
     comments: ({ id }) => prisma.user({ id }).comments(),
+    rooms: ({ id }) => prisma.user({ id }).rooms(),
+    postsCount: ({ id }) =>
+      prisma
+        .postsConnection({ where: { user: { id } } })
+        .aggregate()
+        .count(),
     followingCount: ({ id }) =>
       prisma
         .usersConnection({ where: { followers_some: { id } } })
@@ -17,21 +23,31 @@ export default {
         .usersConnection({ where: { following_none: { id } } })
         .aggregate()
         .count(),
-    fullName: (parent) => {
-      return `${parent.firstName} ${parent.lastName}`;
-    },
+    fullName: (parent) => `${parent.firstName} ${parent.lastName}`,
     isFollowing: async (parent, _, { request }) => {
       const { user } = request;
-      const { id: parentId } = parent; // parent에서 id를 가져와서 parentId라는 곳에 넣는 의미라고 한다(이해...)
-
-      return await prisma.$exists.user({
-        AND: [{ id: parentId }, { followers_some: { id: user.id } }], // followers_some 팔로워중에 something
-      });
+      const { id: parentId } = parent;
+      try {
+        return prisma.$exists.user({
+          AND: [
+            {
+              id: user.id,
+            },
+            {
+              following_some: {
+                id: parentId,
+              },
+            },
+          ],
+        });
+      } catch {
+        return false;
+      }
     },
-    itsMe: (parent, _, { request }) => {
+    isSelf: (parent, _, { request }) => {
       const { user } = request;
       const { id: parentId } = parent;
-      return user.id === parentId; // user(request를 통해 요청하는 사람)과 찾은 User(parent)가 같은가
+      return user.id === parentId;
     },
   },
 };

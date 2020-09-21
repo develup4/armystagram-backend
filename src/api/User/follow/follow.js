@@ -9,11 +9,13 @@ export default {
       const { user } = request;
       try {
         await prisma.updateUser({
-          where: {
-            id: user.id, // 요청하는 id는 request에서 찾고
-          },
+          where: { id: user.id },
           data: {
-            following: { connect: { id } }, // 이건 args로 받은 follow할 id
+            following: {
+              connect: {
+                id,
+              },
+            },
           },
         });
         return true;

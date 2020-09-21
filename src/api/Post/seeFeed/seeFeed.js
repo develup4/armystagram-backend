@@ -1,20 +1,18 @@
-import { isAuthenticated } from '../../../middlewares';
 import { prisma } from '../../../../generated/prisma-client';
 
 export default {
   Query: {
-    seeFeed: async (_, args, { request }) => {
+    seeFeed: async (_, __, { request, isAuthenticated }) => {
       isAuthenticated(request);
       const { user } = request;
       const following = await prisma.user({ id: user.id }).following();
-
-      return await prisma.posts({
+      return prisma.posts({
         where: {
           user: {
-            id_in: [...following.map((user) => user.id), user.id], // followin과 내 포스트들
+            id_in: [...following.map((user) => user.id), user.id],
           },
         },
-        orderBy: 'location_DESC',
+        orderBy: 'createdAt_DESC',
       });
     },
   },

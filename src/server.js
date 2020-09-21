@@ -1,19 +1,24 @@
 import './env';
 import { GraphQLServer } from 'graphql-yoga';
-import { authenticateJwt } from './passport';
 import logger from 'morgan';
 import schema from './schema';
+import './passport';
+import { authenticateJwt } from './passport';
+import { isAuthenticated } from './middlewares';
+import { uploadMiddleware, uploadController } from './upload';
 
 const PORT = process.env.PORT || 4000;
+
 const server = new GraphQLServer({
   schema,
-  context: ({ request }) => ({ request }), // resolver에 데이터를 공유할 수 있다(_, args, {여기})
+  context: ({ request }) => ({ request, isAuthenticated }), // Share context with all resolvers
 });
 
-// 서버에 전달되는 모든 request마다 아래가 쓰이게 된다.
+// All http requests use belows
 server.express.use(logger('dev'));
 server.express.use(authenticateJwt);
+server.express.post('/api/upload', uploadMiddleware, uploadController);
 
 server.start({ port: PORT }, () =>
-  console.log(`Server running on port ${PORT}`)
+  console.log(`✅ Server running on http://localhost:${PORT}`)
 );

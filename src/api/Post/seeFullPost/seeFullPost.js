@@ -4,7 +4,7 @@ export default {
   Query: {
     seeFullPost: async (_, args) => {
       const { id } = args;
-      return await prisma.post({ id });
+      return prisma.post({ id });
     },
   },
 };

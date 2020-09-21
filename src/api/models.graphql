@@ -1,21 +1,23 @@
 type User {
   id: ID!
-  avatar: String!
+  avatar: String
   username: String!
   email: String!
   firstName: String
   lastName: String
   fullName: String
   isFollowing: Boolean!
-  itsMe: Boolean!
+  isSelf: Boolean!
   bio: String
   following: [User!]!
   followingCount: Int!
   followers: [User!]!
   followersCount: Int!
   posts: [Post!]!
+  postsCount: Int!
   likes: [Like!]!
   comments: [Comment!]!
+  rooms: [Room!]!
   loginSecret: String!
   createdAt: String
   updatedAt: String
@@ -31,6 +33,7 @@ type Post {
   comments: [Comment!]!
   isLiked: Boolean!
   likeCount: Int!
+  commentCount: Int!
   createdAt: String
   updatedAt: String
 }

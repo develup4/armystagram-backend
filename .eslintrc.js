@@ -3,21 +3,12 @@ module.exports = {
     browser: true,
     es2020: true,
   },
-  extends: [
-    'plugin:react/recommended',
-    'airbnb',
-    'prettier',
-    'prettier/@typescript-eslint',
-    'plugin:@typescript-eslint/recommended',
-  ],
+  extends: ['plugin:react/recommended', 'airbnb', 'prettier'],
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
     ecmaVersion: 11,
     sourceType: 'module',
   },
-  plugins: ['react', 'babel', 'prettier'],
+  plugins: ['babel', 'prettier'],
   rules: {},
-  quotes: ['double'],
+  quotes: ['single'],
 };
