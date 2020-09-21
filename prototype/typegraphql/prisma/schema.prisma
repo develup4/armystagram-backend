@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs https//pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider           = "typegraphql-prisma"
+  output             = "../prisma/generated/type-graphql"
+  emitTranspiledCode = true
+}
+
+enum Member {
+  JIMIN
+  JUNGKOOK
+  JIN
+  V
+  RM
+  SUGA
+  JHOPE
+}
+
+model User {
+  id         Int       @default(autoincrement()) @id
+  userName   String    @unique
+  email      String    @unique
+  picture    String?   @default(value: "https://3.bp.blogspot.com/-qtEejOg1NHA/Xobmg2y_QeI/AAAAAAAAIVE/UFKPvpeHjKUqCEFOX8lT4MsKz-PwpEGJgCLcBGAsYHQ/s1600/default_user.png")
+  isMember   Boolean
+  mostLike   Member?
+  followers  User[]    @relation("UserFollows", references: [id])
+  followings User[]    @relation("UserFollows", references: [id])
+  posts      Post[]
+  likes      Like[]
+  comments   Comment[]
+  hashtags   Hashtag[]
+  rooms      Room[]
+  messages   Message[]
+  secret     String?
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+}
+
+model Post {
+  id             Int       @default(autoincrement()) @id
+  user           User      @relation(fields: [userId], references: [id])
+  userId         Int
+  caption        String
+  memberPost     Boolean
+  relatedMember1 Member?
+  relatedMember2 Member?
+  relatedMember3 Member?
+  scraped        Boolean
+  images         Image[]
+  likes          Like[]
+  comments       Comment[]
+  hashtags       Hashtag[]
+  createdAt      DateTime? @default(now())
+  updatedAt      DateTime? @updatedAt
+}
+
+model Comment {
+  id        Int       @default(autoincrement()) @id
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    Int
+  text      String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Image {
+  id        Int       @default(autoincrement()) @id
+  url       String
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    Int
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Like {
+  id        Int       @default(autoincrement()) @id
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    Int
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Hashtag {
+  id        Int       @default(autoincrement()) @id
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    Int
+  text      String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model Room {
+  id           Int       @default(autoincrement()) @id
+  participants User[]
+  messages     Message[]
+  createdAt    DateTime? @default(now())
+  updatedAt    DateTime? @updatedAt
+}
+
+model Message {
+  id        Int       @default(autoincrement()) @id
+  room      Room      @relation(fields: [roomId], references: [id])
+  roomId    Int
+  to        User      @relation(fields: [toId], references: [id])
+  toId      Int
+  text      String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
