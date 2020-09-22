@@ -1,33 +1,52 @@
+enum Member {
+  JIMIN
+  V
+  JUNGKOOK
+  JIN
+  RM
+  SUGA
+  JHOPE
+}
+
 type User {
   id: ID! @id
-  avatar: String
+  profile: String
     @default(
       value: "https://storep-phinf.pstatic.net/ogq_58146d6d0ab0a/original_6.png?type=p50_50"
     )
   username: String! @unique
   email: String! @unique
-  firstName: String @default(value: "")
-  lastName: String
-  bio: String
+  defaultFile: File
   following: [User!]! @relation(name: "FollowRelation")
   followers: [User!]! @relation(name: "FollowRelation")
   posts: [Post!]! @relation(name: "PostsOfUser", onDelete: CASCADE)
   likes: [Like!]! @relation(name: "LikesOfUser", onDelete: CASCADE)
   comments: [Comment!]! @relation(name: "CommentsOfUser", onDelete: CASCADE)
   rooms: [Room!]!
-  loginSecret: String
+  mostLike: Member
+  Secret: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
 
+enum PostType {
+  SINGLE
+  GRID
+  SLIDE
+}
+
 type Post {
   id: ID! @id
-  location: String
   caption: String!
   user: User @relation(name: "PostsOfUser")
+  relatedMember1: Member
+  relatedMember2: Member
+  relatedMember3: Member
+  template: PostType!
   files: [File!]! @relation(name: "FilesOfPost", onDelete: CASCADE)
   likes: [Like!]! @relation(name: "LikeOfPost", onDelete: CASCADE)
   comments: [Comment!]! @relation(name: "CommentOfPost", onDelete: CASCADE)
+  hashtags: [Hashtag!]! @relation(name: "HashtagsOfPost", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -43,8 +62,17 @@ type Like {
 type Comment {
   id: ID! @id
   text: String!
+  byMember: Boolean @default(value: false)
   user: User @relation(name: "CommentsOfUser")
   post: Post @relation(name: "CommentOfPost")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Hashtag {
+  id: ID! @id
+  text: String!
+  post: Post @relation(name: "HashtagsOfPost")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -59,6 +87,7 @@ type File {
 
 type Room {
   id: ID! @id
+  withMember: Boolean @default(value: false)
   participants: [User!]!
   messages: [Message!]!
   createdAt: DateTime! @createdAt

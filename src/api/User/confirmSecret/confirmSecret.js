@@ -6,11 +6,11 @@ export default {
     confirmSecret: async (_, args) => {
       const { email, secret } = args;
       const user = await prisma.user({ email });
-      if (user.loginSecret === secret) {
+      if (user.Secret === secret) {
         await prisma.updateUser({
           where: { id: user.id },
           data: {
-            loginSecret: '',
+            Secret: '',
           },
         });
         return generateToken(user.id);

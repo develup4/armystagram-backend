@@ -23,7 +23,6 @@ export default {
         .usersConnection({ where: { following_none: { id } } })
         .aggregate()
         .count(),
-    fullName: (parent) => `${parent.firstName} ${parent.lastName}`,
     isFollowing: async (parent, _, { request }) => {
       const { user } = request;
       const { id: parentId } = parent;
