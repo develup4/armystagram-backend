@@ -16,7 +16,7 @@ type User {
     )
   username: String! @unique
   email: String! @unique
-  defaultFile: File
+  isMember: Boolean @default(value: false)
   following: [User!]! @relation(name: "FollowRelation")
   followers: [User!]! @relation(name: "FollowRelation")
   posts: [Post!]! @relation(name: "PostsOfUser", onDelete: CASCADE)

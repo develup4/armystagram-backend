@@ -13,7 +13,7 @@ type User {
   profile: String
   username: String!
   email: String!
-  defaultFile: File
+  isMember: Boolean
   isFollowing: Boolean!
   isSelf: Boolean!
   following: [User!]!
