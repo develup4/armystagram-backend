@@ -13,6 +13,7 @@ type User {
   profile: String
   username: String!
   email: String!
+  password: String!
   isMember: Boolean
   isFollowing: Boolean!
   isSelf: Boolean!

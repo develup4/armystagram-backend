@@ -3,22 +3,15 @@ import { generateToken } from '../../../utils';
 
 export default {
   Mutation: {
-    confirmSecret: async (_, args) => {
-      const { email, secret } = args;
-      console.log(`Confirm secret attempt ${email} ${secret}`);
+    requestLogin: async (_, args) => {
+      const { email, password } = args;
+      console.log(`Login attempt ${email} ${password}`);
 
       const user = await prisma.user({ email });
+      console.log('Find user for login');
       console.log(user);
-      console.log(`User's secret : ${user.Secret}`);
 
-      if (user.Secret === secret) {
-        await prisma.updateUser({
-          where: { id: user.id },
-          data: {
-            Secret: '',
-          },
-        });
-
+      if (user && user !== undefined && user.password === password) {
         const token = generateToken(user.id);
         console.log(`Generated token : ${token}`);
         return token;

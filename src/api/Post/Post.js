@@ -7,6 +7,11 @@ export default {
     user: ({ id }) => prisma.post({ id }).user(),
     likes: ({ id }) => prisma.post({ id }).likes(),
     isLiked: (parent, _, { request }) => {
+      // If no login yet, return false
+      if (request.user || request.user === undefined) {
+        return false;
+      }
+
       const { user } = request;
       const { id } = parent;
       return prisma.$exists.like({
