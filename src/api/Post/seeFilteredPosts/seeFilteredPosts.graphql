@@ -1,0 +1,10 @@
+type Query {
+  seeFilteredPosts(
+    all: Boolean!
+    popular: Boolean!
+    liked: Boolean!
+    follower: Boolean!
+    member: Boolean!
+    memberName: String
+  ): [Post!]!
+}

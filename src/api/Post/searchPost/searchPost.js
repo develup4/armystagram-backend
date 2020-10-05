@@ -5,11 +5,10 @@ export default {
     searchPost: async (_, args) =>
       prisma.posts({
         where: {
-          OR: [
-            { location_starts_with: args.term },
-            { caption_starts_with: args.term },
-          ],
+          OR: [{ caption_starts_with: args.term }],
         },
       }),
   },
 };
+
+// todo : hashtag

@@ -12,11 +12,15 @@ export default {
       console.log(user);
 
       if (user && user !== undefined && user.password === password) {
+        console.log(user.Secret);
+        if (user.Secret !== '') {
+          return 'NOT_CONFIRM_YET';
+        }
         const token = generateToken(user.id);
         console.log(`Generated token : ${token}`);
         return token;
       } else {
-        return '';
+        return 'FAIL';
       }
     },
   },

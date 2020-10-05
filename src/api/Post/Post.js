@@ -7,13 +7,14 @@ export default {
     user: ({ id }) => prisma.post({ id }).user(),
     likes: ({ id }) => prisma.post({ id }).likes(),
     isLiked: (parent, _, { request }) => {
+      const { user } = request;
+      const { id } = parent;
+
       // If no login yet, return false
-      if (request.user || request.user === undefined) {
+      if (!user || user === undefined) {
         return false;
       }
 
-      const { user } = request;
-      const { id } = parent;
       return prisma.$exists.like({
         AND: [
           {
@@ -29,13 +30,6 @@ export default {
         ],
       });
     },
-    likeCount: (parent) =>
-      prisma
-        .likesConnection({
-          where: { post: { id: parent.id } },
-        })
-        .aggregate()
-        .count(),
     commentCount: (parent) =>
       prisma
         .commentsConnection({

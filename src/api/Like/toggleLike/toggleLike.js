@@ -7,6 +7,7 @@ export default {
       isAuthenticated(request);
       const { postId } = args;
       const { user } = request;
+
       const filterOptions = {
         AND: [
           {
@@ -21,6 +22,7 @@ export default {
           },
         ],
       };
+
       try {
         const existingLike = await prisma.$exists.like(filterOptions);
         if (existingLike) {
@@ -39,6 +41,21 @@ export default {
             },
           });
         }
+
+        // Update likeCount
+        const likeCount = await prisma
+          .likesConnection({
+            where: { post: { id: postId } },
+          })
+          .aggregate()
+          .count();
+        await prisma.updatePost({ data: { likeCount }, where: { id: postId } });
+
+        console.log(
+          `MUTATION toggleLike [${
+            user.username
+          } changed to ${!existingLike}, likeCount ${likeCount}]`
+        );
         return true;
       } catch {
         return false;

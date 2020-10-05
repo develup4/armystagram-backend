@@ -32,12 +32,6 @@ type User {
   updatedAt: String
 }
 
-enum PostType {
-  SINGLE
-  GRID
-  SLIDE
-}
-
 type Post {
   id: ID!
   caption: String!
@@ -45,7 +39,6 @@ type Post {
   relatedMember1: Member
   relatedMember2: Member
   relatedMember3: Member
-  template: PostType!
   files: [File!]!
   comments: [Comment!]!
   commentCount: Int!

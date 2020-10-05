@@ -2,9 +2,9 @@ import { prisma } from '../../../../generated/prisma-client';
 
 export default {
   Query: {
-    seeAllMemberFeeds: async (_, __) => {
+    seeAllPosts: async (_, __) => {
+      console.log('QUERY seeAllPosts');
       return prisma.posts({
-        where: { user: { isMember: true } },
         orderBy: 'createdAt_DESC',
       });
     },

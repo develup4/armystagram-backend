@@ -30,12 +30,6 @@ type User {
   updatedAt: DateTime! @updatedAt
 }
 
-enum PostType {
-  SINGLE
-  GRID
-  SLIDE
-}
-
 type Post {
   id: ID! @id
   caption: String!
@@ -43,9 +37,9 @@ type Post {
   relatedMember1: Member
   relatedMember2: Member
   relatedMember3: Member
-  template: PostType!
   files: [File!]! @relation(name: "FilesOfPost", onDelete: CASCADE)
   likes: [Like!]! @relation(name: "LikeOfPost", onDelete: CASCADE)
+  likeCount: Int @default(value: 0)
   comments: [Comment!]! @relation(name: "CommentOfPost", onDelete: CASCADE)
   hashtags: [Hashtag!]! @relation(name: "HashtagsOfPost", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
