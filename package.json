@@ -9,6 +9,7 @@
     "aws-sdk": "2.483.0",
     "babel-node": "^0.0.1-security",
     "copy": "0.3.2",
+    "cors": "^2.8.5",
     "dotenv": "6.2.0",
     "eslint": "^7.9.0",
     "eslint-config-airbnb": "^18.2.0",

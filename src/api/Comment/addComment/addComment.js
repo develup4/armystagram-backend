@@ -7,6 +7,9 @@ export default {
       isAuthenticated(request);
       const { text, postId } = args;
       const { user } = request;
+
+      console.log(`MUTATION addComment [${user.username} => text:${text}]`);
+
       return prisma.createComment({
         user: {
           connect: {

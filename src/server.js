@@ -1,8 +1,9 @@
 import './env';
-import { GraphQLServer } from 'graphql-yoga';
+import './passport';
+import cors from 'cors';
 import logger from 'morgan';
 import schema from './schema';
-import './passport';
+import { GraphQLServer } from 'graphql-yoga';
 import { authenticateJwt } from './passport';
 import { isAuthenticated } from './middlewares';
 import { uploadMiddleware, uploadController } from './upload';
@@ -11,10 +12,12 @@ const PORT = process.env.PORT || 4000;
 
 const server = new GraphQLServer({
   schema,
-  context: ({ request }) => ({ request, isAuthenticated }), // Share context with all resolvers
+  // Share context with all resolvers
+  context: ({ request }) => ({ request, isAuthenticated }),
 });
 
 // All http requests use belows
+server.express.use(cors());
 server.express.use(logger('dev'));
 server.express.use(authenticateJwt);
 server.express.post('/api/upload', uploadMiddleware, uploadController);

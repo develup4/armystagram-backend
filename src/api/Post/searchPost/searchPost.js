@@ -2,13 +2,16 @@ import { prisma } from '../../../../generated/prisma-client';
 
 export default {
   Query: {
-    searchPost: async (_, args) =>
-      prisma.posts({
+    searchPost: async (_, args) => {
+      `QUERY searchPost [term: ${args.term}]`;
+      return prisma.posts({
         where: {
-          OR: [{ caption_starts_with: args.term }],
+          OR: [
+            { caption_contains: args.term },
+            { hashtags_some: { where: { text: args.term } } },
+          ],
         },
-      }),
+      });
+    },
   },
 };
-
-// todo : hashtag

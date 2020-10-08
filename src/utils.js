@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 
 export const generateSecret = () => {
   const randomNumber = Math.floor(Math.random() * adjectives.length);
-  console.log(randomNumber);
   return `${adjectives[randomNumber]} ${nouns[randomNumber]}`;
 };
 
@@ -22,12 +21,15 @@ const sendMail = (email) => {
 
 export const sendSecretMail = (address, secret) => {
   const email = {
-    from: 'admin@armystagram.com',
+    from: 'admin@armystagram.ml',
     to: address,
-    subject: 'Login Secret for armystagram',
-    html: `<h2>Hello! Your login secret is [${secret}].
-    </h2><h2>Copy and paste on your app or website</h2>`,
+    subject: 'Armystagram 가입인증 메일',
+    html: `
+    <h2>안녕하세요? 이 문구를 앱 혹은 웹페이지에 입력하여주세요.</h2>
+    <h2>[ ${secret} ]</h2>
+    `,
   };
+  console.log(`Send secret mail [address:${address}, secret:${secret}]`);
   return sendMail(email);
 };
 

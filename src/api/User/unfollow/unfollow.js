@@ -7,6 +7,8 @@ export default {
       isAuthenticated(request);
       const { id } = args;
       const { user } = request;
+      console.log(`unfollow from ${user.username} to ${id}`);
+
       try {
         await prisma.updateUser({
           where: { id: user.id },
