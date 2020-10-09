@@ -40,8 +40,8 @@
   "author": "develup4 <develup4@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "deploy": "prisma1 deploy",
-    "generate": "prisma1 generate",
+    "deploy": "prisma deploy",
+    "generate": "prisma generate",
     "prisma": "yarn run deploy && yarn run generate",
     "dev": "nodemon --exec babel-node src/server.js",
     "prebuild": "yarn run prisma",
