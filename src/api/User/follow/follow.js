@@ -9,6 +9,11 @@ export default {
       const { user } = request;
       console.log(`follow from ${user.username} to ${id}`);
 
+      if (user.id === id) {
+        console.log("Can't follow me");
+        return false;
+      }
+
       try {
         await prisma.updateUser({
           where: { id: user.id },

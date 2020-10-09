@@ -1,4 +1,4 @@
-endpoint: ${env:PRISMA_ENDPOINT}
+endpoint: 'https://armystagram-prisma-f517a8c05d.herokuapp.com/armystagram-prisma/prod'
 datamodel: datamodel.prisma
 
 generate:
