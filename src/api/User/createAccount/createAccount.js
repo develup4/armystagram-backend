@@ -19,13 +19,6 @@ export default {
 
       const hashedPassword = sha256(password + process.env.PASSWORD_SALT);
 
-      // Create User
-      await prisma.createUser({
-        username,
-        email,
-        hashedPassword,
-      });
-
       // Make secret
       const Secret = generateSecret();
       console.log(`Generated secret : ${Secret}`);
@@ -34,6 +27,14 @@ export default {
         await sendSecretMail(email, Secret);
         console.log(`Send secret mail to ${email}`);
 
+        // Create User
+        await prisma.createUser({
+          username,
+          email,
+          password: hashedPassword,
+        });
+
+        // Update secret
         await prisma.updateUser({ data: { Secret }, where: { email } });
         return 'SUCCESS';
       } catch (e) {

@@ -21,12 +21,16 @@ const sendMail = (email) => {
 
 export const sendSecretMail = (address, secret) => {
   const email = {
-    from: 'admin@armystagram.ml',
+    from: process.env.ADMIN_MAIL,
     to: address,
     subject: 'Armystagram 가입인증 메일',
     html: `
-    <h2>안녕하세요? 이 문구를 앱 혹은 웹페이지에 입력하여주세요.</h2>
-    <h2>[ ${secret} ]</h2>
+    <h2>Armystagram 회원가입</h2>
+    <h1">인증키값은 아래와 같습니다.<h1>
+    <h2></h2>
+    <h2>KEY: [ ${secret} ]</h2>
+    <h2></h2>
+    <a href="www.armystagram.ml">Armystagram으로 이동</a>
     `,
   };
   console.log(`Send secret mail [address:${address}, secret:${secret}]`);

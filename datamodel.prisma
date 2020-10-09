@@ -12,7 +12,7 @@ type User {
   id: ID! @id
   profile: String
     @default(
-      value: "https://storep-phinf.pstatic.net/ogq_58146d6d0ab0a/original_6.png?type=p50_50"
+      value: "https://armystagram.s3.ap-northeast-2.amazonaws.com/Member/Default.png"
     )
   username: String! @unique
   email: String! @unique
