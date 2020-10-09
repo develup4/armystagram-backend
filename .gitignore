@@ -104,5 +104,4 @@ dist
 .tern-port
 
 generated
-prisma.yml
 build
