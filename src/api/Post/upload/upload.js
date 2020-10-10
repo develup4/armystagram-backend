@@ -5,7 +5,7 @@ export default {
     upload: async (_, args, { request, isAuthenticated }) => {
       isAuthenticated(request);
       const { user } = request;
-      const { caption, files, hashtags } = args;
+      const { caption, files, hashtags = undefined } = args;
       console.log(
         `MUTATION upload [user: ${user.username} caption: ${caption} fileCount: ${files.length}]`
       );
@@ -27,17 +27,19 @@ export default {
           })
       );
 
-      hashtags.forEach(
-        async (hashtag) =>
-          await prisma.createHashtag({
-            text: hashtag,
-            post: {
-              connect: {
-                id: post.id,
+      if (hashtags && hashtags.length !== 0 && hashtags[0] !== null) {
+        hashtags.forEach(
+          async (hashtag) =>
+            await prisma.createHashtag({
+              text: hashtag,
+              post: {
+                connect: {
+                  id: post.id,
+                },
               },
-            },
-          })
-      );
+            })
+        );
+      }
       return post;
     },
   },
