@@ -1,13 +1,3 @@
-enum Member {
-  JIMIN
-  V
-  JUNGKOOK
-  JIN
-  RM
-  SUGA
-  JHOPE
-}
-
 type User {
   id: ID!
   profile: String
@@ -16,6 +6,7 @@ type User {
   password: String!
   isMember: Boolean
   isFollowing: Boolean!
+  followingMe: Boolean!
   isSelf: Boolean!
   following: [User!]!
   followingCount: Int!
@@ -26,7 +17,7 @@ type User {
   likes: [Like!]!
   comments: [Comment!]!
   rooms: [Room!]!
-  mostLike: Member
+  mostLike: String
   Secret: String!
   createdAt: String
   updatedAt: String
@@ -36,9 +27,9 @@ type Post {
   id: ID!
   caption: String!
   user: User!
-  relatedMember1: Member
-  relatedMember2: Member
-  relatedMember3: Member
+  relatedMember1: String
+  relatedMember2: String
+  relatedMember3: String
   files: [File!]!
   comments: [Comment!]!
   commentCount: Int!

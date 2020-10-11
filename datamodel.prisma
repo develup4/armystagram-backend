@@ -1,13 +1,3 @@
-enum Member {
-  JIMIN
-  V
-  JUNGKOOK
-  JIN
-  RM
-  SUGA
-  JHOPE
-}
-
 type User {
   id: ID! @id
   profile: String
@@ -24,7 +14,7 @@ type User {
   likes: [Like!]! @relation(name: "LikesOfUser", onDelete: CASCADE)
   comments: [Comment!]! @relation(name: "CommentsOfUser", onDelete: CASCADE)
   rooms: [Room!]!
-  mostLike: Member
+  mostLike: String
   Secret: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
@@ -34,9 +24,9 @@ type Post {
   id: ID! @id
   caption: String!
   user: User @relation(name: "PostsOfUser")
-  relatedMember1: Member
-  relatedMember2: Member
-  relatedMember3: Member
+  relatedMember1: String
+  relatedMember2: String
+  relatedMember3: String
   files: [File!]! @relation(name: "FilesOfPost", onDelete: CASCADE)
   likes: [Like!]! @relation(name: "LikeOfPost", onDelete: CASCADE)
   likeCount: Int @default(value: 0)
