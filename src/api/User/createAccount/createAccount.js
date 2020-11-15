@@ -17,8 +17,6 @@ export default {
         return '닉네임 혹은 이메일이 중복되었어요 ㅠ';
       }
 
-      const hashedPassword = sha256(password + process.env.PASSWORD_SALT);
-
       // Make secret
       const Secret = generateSecret();
       console.log(`Generated secret : ${Secret}`);
@@ -31,7 +29,7 @@ export default {
         await prisma.createUser({
           username,
           email,
-          password: hashedPassword,
+          password,
         });
 
         // Update secret
